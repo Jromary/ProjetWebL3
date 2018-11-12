@@ -5,13 +5,14 @@
 
 <script type="text/javascript">
 	function seconde_category( ){
-			/*foreach($categorie as $H => $hs){
-				var option = document.createElement("option");
-				option.text=$hs
-				document.getElementById("sousCategorie").appendChild("<option value='".$H."' onchange='seconde_category(".$H.")' >".$H."</option>");*/
-				alert(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text);
-				//alert("Hello! I am an alert box!!");
-
+        /*foreach($categorie as $H => $hs){
+        var option = document.createElement("option");
+        option.text=$hs
+        document.getElementById("sousCategorie").appendChild("<option value='".$H."' onchange='seconde_category(".$H.")' >".$H."</option>");*/
+        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text);
+        //alert("Hello! I am an alert box!!");
+        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex])
+        document.getElementById("sousCategorie").hidden = false;
                       
 	
 	}
@@ -38,7 +39,7 @@
 	?>
 	</select>
 
-		<select id="sousCategorie" ></select>
+		<select id="sousCategorie" hidden=true ></select>
       
 </body>
 </html>
