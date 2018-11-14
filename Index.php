@@ -4,6 +4,7 @@
 ?>
 
 <script type="text/javascript">
+<<<<<<< HEAD
 
 
 
@@ -22,6 +23,20 @@ function seconde_category() {
       });
  
  }
+=======
+	function seconde_category( ){
+        /*foreach($categorie as $H => $hs){
+        var option = document.createElement("option");
+        option.text=$hs
+        document.getElementById("sousCategorie").appendChild("<option value='".$H."' onchange='seconde_category(".$H.")' >".$H."</option>");*/
+        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text);
+        //alert("Hello! I am an alert box!!");
+        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex])
+        document.getElementById("sousCategorie").hidden = false;
+                      
+	
+	}
+>>>>>>> a07a9608ff5ce6aad123a96738823b86d4bbdc14
 </script>
 
 <link rel="stylesheet" type="text/css" href="Css/bootstrap.min.css">
@@ -71,7 +86,11 @@ function seconde_category() {
 	
     </div>
 
+<<<<<<< HEAD
    </div>
+=======
+		<select id="sousCategorie" hidden=true ></select>
+>>>>>>> a07a9608ff5ce6aad123a96738823b86d4bbdc14
       
 </body>
 </html>
