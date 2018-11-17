@@ -1,42 +1,59 @@
 <html>
 <?php
-	include "Donnees.inc.php";
+include "Donnees.inc.php";
 ?>
 
 <script type="text/javascript">
-<<<<<<< HEAD
 
 
+    function seconde_category() {
+        $.ajax({
+            type: "POST",
+            url: 'ajax.php',
+            data: {
+                action: 'seconde_category',
+                Hierarchie: document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text
+            },
+            dataType: 'html',
+            success: function (data) {
+                document.getElementById("list2").innerHTML = '';
+                document.getElementById("list3").innerHTML = '';
+                document.getElementById("list2").innerHTML = '<option value="" selected disabled hidden>Choose here</option>';
+                document.getElementById("list2").innerHTML += data;
+            }
 
-function seconde_category() {
-      $.ajax({
-           type: "POST",
-           url: 'ajax.php',
-           data:{action:'seconde_category' , Hierarchie: document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text },
-           dataType: 'html',
-           success:function(data) {
-           	document.getElementById("list2").innerHTML='';
-           	document.getElementById("list3").innerHTML='';
-			document.getElementById("list2").innerHTML += data;
-           }
+        });
+    }
 
-      });
- 
- }
-=======
-	function seconde_category( ){
-        /*foreach($categorie as $H => $hs){
-        var option = document.createElement("option");
-        option.text=$hs
-        document.getElementById("sousCategorie").appendChild("<option value='".$H."' onchange='seconde_category(".$H.")' >".$H."</option>");*/
+    function recettes() {
+        $.ajax({
+            type: "POST",
+            url: 'ajax.php',
+            data: {
+                action: 'recettes',
+                ingredient: document.getElementById("list2").options[document.getElementById("list2").selectedIndex].text
+            },
+            dataType: 'html',
+            success: function (data) {
+                document.getElementById("recettes").innerHTML = '';
+                document.getElementById("recettes").innerHTML += data;
+            }
+
+        });
+    }
+
+    /**function seconde_category( ){
+        //foreach($categorie as $H => $hs){
+        //var option = document.createElement("option");
+        //option.text=$hs
+        //document.getElementById("sousCategorie").appendChild("<option value='".$H."' onchange='seconde_category(".$H.")' >".$H."</option>");
         console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text);
         //alert("Hello! I am an alert box!!");
         console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex])
         document.getElementById("sousCategorie").hidden = false;
                       
 	
-	}
->>>>>>> a07a9608ff5ce6aad123a96738823b86d4bbdc14
+	}**/
 </script>
 
 <link rel="stylesheet" type="text/css" href="Css/bootstrap.min.css">
@@ -45,52 +62,51 @@ function seconde_category() {
 
 
 <head>
-	
+
 </head>
 
 <body>
-     
-     <div class="container">
 
-     <div id="Menu" class="row">
-     
-    <!-- sous categorie1 -->
+<div class="container">
 
-    <div class="col-3" id="sg1">
-	        <select id="superClass" class="form-control" onchange='seconde_category()' >
+    <div id="Menu" class="row">
 
-	        <?php
-	        foreach($Hierarchie as $H => $hs){
-	        	echo "<option value='".$H."'  >".$H."</option>";
-	        }
-	        ?>
-	        </select>
-	</div>
+        <!-- sous categorie1 -->
 
-	<!-- sous categorie2 -->
+        <div class="col-3" id="sg1">
+            <select id="superClass" class="form-control" onchange='seconde_category()'>
 
-	<div class="col-3" id="sg2">
-		<select id="list2" class="form-control"></select>
-	</div>
-	
-     <!-- sous categorie3 -->
+                <?php
+                foreach ($Hierarchie as $H => $hs) {
+                    echo "<option value='" . $H . "'  >" . $H . "</option>";
+                }
+                ?>
+            </select>
+        </div>
 
-	<div class="col-3" id="sg3">
-		<select id="list3" class="form-control"></select>
-	</div>
-     <!-- boutton ajouter -->
-	
-	<div class="col-3" id="sg3">
-		<button type="button" class="btn btn-success">Ajouter</button>
-	</div>		
-	
+        <!-- sous categorie2 -->
+
+        <div class="col-3" id="sg2">
+            <select id="list2" class="form-control" onchange="recettes()"></select>
+        </div>
+
+        <!-- sous categorie3 -->
+
+        <div class="col-3" id="sg3">
+            <select id="list3" class="form-control"></select>
+        </div>
+        <!-- boutton ajouter -->
+
+        <div class="col-3" id="sg3">
+            <button type="button" class="btn btn-success">Ajouter</button>
+        </div>
+
     </div>
 
-<<<<<<< HEAD
-   </div>
-=======
-		<select id="sousCategorie" hidden=true ></select>
->>>>>>> a07a9608ff5ce6aad123a96738823b86d4bbdc14
-      
+    <div class="card-deck" id="recettes">
+    </div>
+
+</div>
+
 </body>
 </html>
