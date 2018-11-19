@@ -1,41 +1,45 @@
 <html>
 <?php
-	include "Donnees.inc.php";
+include "Donnees.inc.php";
 ?>
+
+<head>
+    <meta charset="UTF-8"/>
+</head>
 
 <script type="text/javascript">
 
 
 
-function insert( element ,  type) {
-      $.ajax({
-           type: "POST",
-           url: 'ajax.php',
-           data:{action:'seconde_category' , number: type +1  , node: element },
-           dataType: 'html',
-           success:function(data) {
-              var node = document.createElement("div");
-              node.classList.add("col-3");
+    function insert( element ,  type) {
+        $.ajax({
+            type: "POST",
+            url: 'ajax.php',
+            data:{action:'seconde_category' , number: type +1  , node: element },
+            dataType: 'html',
+            success:function(data) {
+                var node = document.createElement("div");
+                node.classList.add("col-3");
+                taille = $("#Choice div").length;
+                
+                for(i=type+1 ; i<=taille ; i++)
+                    document.getElementById("list"+i).parentElement.remove();
 
-                  taille = $("#Choice div").length;
-                  for(i=type+1 ; i<=taille ; i++)
-                      document.getElementById("list"+i).parentElement.remove();
+                $("#Choice").append(node);
+                node.innerHTML+=data;
+                recettes(element);
 
-            $("#Choice").append(node);
-           	node.innerHTML+=data;
-            recettes(element);
+            }
 
-           }
-
-      });
-      
-
- }
+        });
 
 
+    }
 
-     function recettes(value) {
-        
+
+
+    function recettes(value) {
+
         //this.selectedIndex.value
         $.ajax({
             type: "POST",
@@ -64,56 +68,48 @@ function insert( element ,  type) {
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 
 
-<head>
-	
-</head>
+
 
 <body>
-     
-     <div class="container">
+
+<div class="container">
 
 
-     <div id="Choice" class="row">
-     
-    <!-- sous categorie1 -->
+    <div id="Choice" class="row">
 
-    <div class="col-3" id="sg1">
-	        <select id="list1" class="form-control" onchange='insert(this.options[selectedIndex].value , 1)' >
+        <!-- sous categorie1 -->
 
-	        <?php
-	        foreach($Hierarchie as $H => $hs){
-                if($H == 'Aliment'){
-                  foreach ($hs as $k1 => $v1){ 
-                    if($k1 == 'sous-categorie'){
-                      foreach ($v1 as $k2 => $v2) {
-                          echo "<option value='".$v2."'  >".$v2."</option>";
-                         }
-                         break;
+        <div class="col-3" id="sg1">
+            <select id="list1" class="form-control" onchange='insert(this.options[selectedIndex].value , 1)' >
+
+                <?php
+                foreach($Hierarchie as $H => $hs){
+                    if($H == 'Aliment'){
+                        foreach ($hs as $k1 => $v1){
+                            if($k1 == 'sous-categorie'){
+                                foreach ($v1 as $k2 => $v2) {
+                                    echo "<option value='".$v2."'  >".$v2."</option>";
+                                }
+                                break;
+                            }
                         }
-                  }
 
 
-                  break;
-               }
+                        break;
+                    }
 
-	        	
-	        }
-	        ?>
-	        </select>
-	</div>
 
-	
-	
+                }
+                ?>
+            </select>
+        </div>
     </div>
-
-
-
 
     <div id="recettes">
     </div>
 
 
-   </div>
-      
+</div>
+
 </body>
 </html>
