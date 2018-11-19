@@ -4,39 +4,59 @@
 ?>
 
 <script type="text/javascript">
-<<<<<<< HEAD
 
 
 
-function seconde_category() {
+function insert( element ,  type) {
       $.ajax({
            type: "POST",
            url: 'ajax.php',
-           data:{action:'seconde_category' , Hierarchie: document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text },
+           data:{action:'seconde_category' , number: type +1  , node: element },
            dataType: 'html',
            success:function(data) {
-           	document.getElementById("list2").innerHTML='';
-           	document.getElementById("list3").innerHTML='';
-			document.getElementById("list2").innerHTML += data;
+              var node = document.createElement("div");
+              node.classList.add("col-3");
+
+                  taille = $("#Choice div").length;
+                  for(i=type+1 ; i<=taille ; i++)
+                      document.getElementById("list"+i).parentElement.remove();
+
+            $("#Choice").append(node);
+           	node.innerHTML+=data;
+            recettes(element);
+
            }
 
       });
- 
+      
+
  }
-=======
-	function seconde_category( ){
-        /*foreach($categorie as $H => $hs){
-        var option = document.createElement("option");
-        option.text=$hs
-        document.getElementById("sousCategorie").appendChild("<option value='".$H."' onchange='seconde_category(".$H.")' >".$H."</option>");*/
-        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text);
-        //alert("Hello! I am an alert box!!");
-        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex])
-        document.getElementById("sousCategorie").hidden = false;
-                      
-	
-	}
->>>>>>> a07a9608ff5ce6aad123a96738823b86d4bbdc14
+
+
+
+     function recettes(value) {
+        
+        //this.selectedIndex.value
+        $.ajax({
+            type: "POST",
+            url: 'ajax.php',
+            data: {
+                action: 'recettes',
+                ingredient: value
+            },
+            dataType: 'html',
+            success: function (data) {
+                document.getElementById("recettes").innerHTML = '';
+                document.getElementById("recettes").innerHTML += data;
+            }
+
+        });
+    }
+
+
+
+
+
 </script>
 
 <link rel="stylesheet" type="text/css" href="Css/bootstrap.min.css">
@@ -52,45 +72,48 @@ function seconde_category() {
      
      <div class="container">
 
-     <div id="Menu" class="row">
+
+     <div id="Choice" class="row">
      
     <!-- sous categorie1 -->
 
     <div class="col-3" id="sg1">
-	        <select id="superClass" class="form-control" onchange='seconde_category()' >
+	        <select id="list1" class="form-control" onchange='insert(this.options[selectedIndex].value , 1)' >
 
 	        <?php
 	        foreach($Hierarchie as $H => $hs){
-	        	echo "<option value='".$H."'  >".$H."</option>";
+                if($H == 'Aliment'){
+                  foreach ($hs as $k1 => $v1){ 
+                    if($k1 == 'sous-categorie'){
+                      foreach ($v1 as $k2 => $v2) {
+                          echo "<option value='".$v2."'  >".$v2."</option>";
+                         }
+                         break;
+                        }
+                  }
+
+
+                  break;
+               }
+
+	        	
 	        }
 	        ?>
 	        </select>
 	</div>
 
-	<!-- sous categorie2 -->
-
-	<div class="col-3" id="sg2">
-		<select id="list2" class="form-control"></select>
-	</div>
 	
-     <!-- sous categorie3 -->
-
-	<div class="col-3" id="sg3">
-		<select id="list3" class="form-control"></select>
-	</div>
-     <!-- boutton ajouter -->
-	
-	<div class="col-3" id="sg3">
-		<button type="button" class="btn btn-success">Ajouter</button>
-	</div>		
 	
     </div>
 
-<<<<<<< HEAD
+
+
+
+    <div id="recettes">
+    </div>
+
+
    </div>
-=======
-		<select id="sousCategorie" hidden=true ></select>
->>>>>>> a07a9608ff5ce6aad123a96738823b86d4bbdc14
       
 </body>
 </html>
