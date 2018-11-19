@@ -1,37 +1,48 @@
 <html>
 <?php
-include "Donnees.inc.php";
+	include "Donnees.inc.php";
 ?>
 
 <script type="text/javascript">
 
 
-    function seconde_category() {
-        $.ajax({
-            type: "POST",
-            url: 'ajax.php',
-            data: {
-                action: 'seconde_category',
-                Hierarchie: document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text
-            },
-            dataType: 'html',
-            success: function (data) {
-                document.getElementById("list2").innerHTML = '';
-                document.getElementById("list3").innerHTML = '';
-                document.getElementById("list2").innerHTML = '<option value="" selected disabled hidden>Choose here</option>';
-                document.getElementById("list2").innerHTML += data;
-            }
 
-        });
-    }
+function insert( element ,  type) {
+      $.ajax({
+           type: "POST",
+           url: 'ajax.php',
+           data:{action:'seconde_category' , number: type +1  , node: element },
+           dataType: 'html',
+           success:function(data) {
+              var node = document.createElement("div");
+              node.classList.add("col-3");
 
-    function recettes() {
+                  taille = $("#Choice div").length;
+                  for(i=type+1 ; i<=taille ; i++)
+                      document.getElementById("list"+i).parentElement.remove();
+
+            $("#Choice").append(node);
+           	node.innerHTML+=data;
+            recettes(element);
+
+           }
+
+      });
+      
+
+ }
+
+
+
+     function recettes(value) {
+        
+        //this.selectedIndex.value
         $.ajax({
             type: "POST",
             url: 'ajax.php',
             data: {
                 action: 'recettes',
-                ingredient: document.getElementById("list2").options[document.getElementById("list2").selectedIndex].text
+                ingredient: value
             },
             dataType: 'html',
             success: function (data) {
@@ -42,18 +53,10 @@ include "Donnees.inc.php";
         });
     }
 
-    /**function seconde_category( ){
-        //foreach($categorie as $H => $hs){
-        //var option = document.createElement("option");
-        //option.text=$hs
-        //document.getElementById("sousCategorie").appendChild("<option value='".$H."' onchange='seconde_category(".$H.")' >".$H."</option>");
-        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex].text);
-        //alert("Hello! I am an alert box!!");
-        console.log(document.getElementById("superClass").options[document.getElementById("superClass").selectedIndex])
-        document.getElementById("sousCategorie").hidden = false;
-                      
-	
-	}**/
+
+
+
+
 </script>
 
 <link rel="stylesheet" type="text/css" href="Css/bootstrap.min.css">
@@ -62,51 +65,55 @@ include "Donnees.inc.php";
 
 
 <head>
-
+	
 </head>
 
 <body>
+     
+     <div class="container">
 
-<div class="container">
 
-    <div id="Menu" class="row">
+     <div id="Choice" class="row">
+     
+    <!-- sous categorie1 -->
 
-        <!-- sous categorie1 -->
+    <div class="col-3" id="sg1">
+	        <select id="list1" class="form-control" onchange='insert(this.options[selectedIndex].value , 1)' >
 
-        <div class="col-3" id="sg1">
-            <select id="superClass" class="form-control" onchange='seconde_category()'>
+	        <?php
+	        foreach($Hierarchie as $H => $hs){
+                if($H == 'Aliment'){
+                  foreach ($hs as $k1 => $v1){ 
+                    if($k1 == 'sous-categorie'){
+                      foreach ($v1 as $k2 => $v2) {
+                          echo "<option value='".$v2."'  >".$v2."</option>";
+                         }
+                         break;
+                        }
+                  }
 
-                <?php
-                foreach ($Hierarchie as $H => $hs) {
-                    echo "<option value='" . $H . "'  >" . $H . "</option>";
-                }
-                ?>
-            </select>
-        </div>
 
-        <!-- sous categorie2 -->
+                  break;
+               }
 
-        <div class="col-3" id="sg2">
-            <select id="list2" class="form-control" onchange="recettes()"></select>
-        </div>
+	        	
+	        }
+	        ?>
+	        </select>
+	</div>
 
-        <!-- sous categorie3 -->
-
-        <div class="col-3" id="sg3">
-            <select id="list3" class="form-control"></select>
-        </div>
-        <!-- boutton ajouter -->
-
-        <div class="col-3" id="sg3">
-            <button type="button" class="btn btn-success">Ajouter</button>
-        </div>
-
+	
+	
     </div>
 
-    <div class="card-deck" id="recettes">
+
+
+
+    <div id="recettes">
     </div>
 
-</div>
 
+   </div>
+      
 </body>
 </html>
