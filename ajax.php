@@ -1,3 +1,4 @@
+
 <?php
 include "Donnees.inc.php";
 require "Donnees.inc.php";
@@ -100,6 +101,3 @@ if ($_POST["action"] == "recettes") {
     //$msg = "<div class='card-deck'>";
     echo getRecettes($ingredient);
 }
-
-
-?>
